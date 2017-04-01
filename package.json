@@ -5,7 +5,7 @@
   "author": "Hackathongi",
   "description": "A super-fancy chatbot to control a domotic house via the famous tarlaAPI.",
   "scripts": {
-    "start:slack": "HUBOT_SLACK_TOKEN=xoxb-163134636324-GwVfvudbyo530U4gDg1UAkmj ./bin/hubot --adapter slack",
+    "start:slack": "HUBOT_SLACK_TOKEN=xoxb-163134636324-0SQJMekUIPBQEP1nHAt8jaLc ./bin/hubot --adapter slack",
     "start:telegram": "TELEGRAM_TOKEN=371826962:AAE_4OuNHn7Z2ysSl55HazWiURL9l3b0hZs ./bin/hubot -a telegram -n TarlaBot"
   },
   "dependencies": {
@@ -22,7 +22,8 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.3.4",
-    "hubot-telegram": "^0.1.2"
+    "hubot-telegram": "^0.1.2",
+    "lodash": "^4.17.4"
   },
   "engines": {
     "node": "6.10.1"
