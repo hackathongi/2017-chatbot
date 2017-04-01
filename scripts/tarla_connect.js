@@ -11,13 +11,50 @@
 //   hubot show devices
 //   hubot exec <command> <action> <param...>
 //   hubot I want to <text_in_catalan>
-//
+//   hubot *whatever* memes *whatever*
 // Author:
 //   d_asensio
 
 const request   = require('request'),
       _         = require('lodash');
 
+function parseCommand(str){
+  let pos = -1;
+  let param = [];
+  let open = false;
+  for (let i = 0; i<str.length; i++){
+    if (str[i] === '"'){
+      if (open === false){
+        open = true; pos++;
+        param[pos] = '';
+        param[pos] += str[i];
+      }
+      else if (open === true && (str.indexOf('\"',i-1) === i)){
+        open = false;
+        param[pos] += str[i];
+      }
+      else if (open) param[pos] += str[i];
+    }
+    else if (open) param[pos] += str[i];
+  }
+
+  let res = '';
+  for (let j = 0; j<param.length; j++){
+    res = str.replace(param[j],' ');
+    str = res;
+  }
+
+  let final_array = str.split(' ');
+  pos = 0;
+  for (let k = 0; k<final_array.length;k++){
+    if (~final_array[k].indexOf("\=")){
+      final_array[k] += param[pos];
+      pos++;
+    }
+  }
+
+  return final_array;
+}
 
 function validateCommand(action, command, params = []) {
   return new Promise((resolve, reject) => {
@@ -108,5 +145,12 @@ module.exports = function(robot){
         msg.send(body);
       });
     });
+  });
+
+  robot.respond(/.*\s?memes?\s.*$/i, (msg) => {
+    let randomint = 140001 + Math.floor(Math.random() * 60000);
+    let reponses = ["Yessir", "Oui", "Memevamemeviene", "Dank Meme hot for u", "Spiced memes served"];
+    msg.send(reponses[randomint%reponses.length]);
+    msg.send("http://images.memes.com/meme/" + randomint.toString());
   });
 }
