@@ -2,8 +2,11 @@
   "name": "tarla-bot",
   "version": "0.0.0",
   "private": true,
-  "author": "Hackatongi",
+  "author": "Hackathongi",
   "description": "A super-fancy chatbot to control a domotic house via the famous tarlaAPI.",
+  "scripts": {
+    "start:slack": "HUBOT_SLACK_TOKEN=xoxb-163134636324-5GJ7930rxWT1Yfi37XBWzJDY ./bin/hubot --adapter slack"
+  },
   "dependencies": {
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
@@ -17,6 +20,7 @@
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
+    "hubot-slack": "^4.3.4",
     "hubot-telegram": "^0.1.2"
   },
   "engines": {
