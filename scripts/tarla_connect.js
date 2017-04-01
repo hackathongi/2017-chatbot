@@ -9,6 +9,8 @@
 //
 // Commands:
 //   hubot show devices
+//   hubot exec <command> <action> <param...>
+//   hubot I want to <text_in_catalan>
 //
 // Author:
 //   d_asensio
@@ -93,6 +95,18 @@ module.exports = function(robot){
       });
     }).catch(() => {
       msg.send('WRONG COMMAND');
+    });
+  });
+
+
+  robot.respond(/I\swant\sto\s(.*)$/i, (msg) => {
+    console.log(msg.match[1]);
+    request.get({uri:'http://192.168.4.110/api/parse/' + msg.match[1], json : false}, (err, r, tarlaURI) => {
+
+      msg.send(tarlaURI);
+      request.get({uri:tarlaURI, json : false}, (err, r, body) => {
+        msg.send(body);
+      });
     });
   });
 }
