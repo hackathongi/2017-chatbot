@@ -147,10 +147,10 @@ module.exports = function(robot){
     });
   });
 
-  robot.respond(/.*\s?memes?\s.*$/i, (msg) => {
+  robot.respond(/.*\s?memes?\s?.*$/i, (msg) => {
     let randomint = 140001 + Math.floor(Math.random() * 60000);
     let reponses = ["Yessir", "Oui", "Memevamemeviene", "Dank Meme hot for u", "Spiced memes served"];
     msg.send(reponses[randomint%reponses.length]);
-    msg.send("http://images.memes.com/meme/" + randomint.toString());
+    msg.send("http://images.memes.com/meme/" + randomint.toString() + "?.gif?.jpg");
   });
 }
