@@ -9,9 +9,10 @@
 //
 // Commands:
 //   hubot show devices
-//   hubot exec <command> <action> <param...>
+//   hubot exec <command> <action> <param>="<value>" <param2>="<value2>"
 //   hubot I want to <text_in_catalan>
 //   hubot *whatever* memes *whatever*
+//
 // Author:
 //   d_asensio
 
@@ -40,7 +41,7 @@ function parseCommand(str){
 
   let res = '';
   for (let j = 0; j<param.length; j++){
-    res = str.replace(param[j],' ');
+    res = str.replace(param[j],'');
     str = res;
   }
 
@@ -48,7 +49,7 @@ function parseCommand(str){
   pos = 0;
   for (let k = 0; k<final_array.length;k++){
     if (~final_array[k].indexOf("\=")){
-      final_array[k] += param[pos];
+      final_array[k] += param[pos].replace(/\"/g, '');
       pos++;
     }
   }
@@ -82,7 +83,7 @@ function validateCommand(action, command, params = []) {
 function getFormattedURI(action, command, params = []) {
   const nParams = params.length - 1;
 
-  let initialURI = 'http://tarla.hackathongi.cat/devices/' + action + '/cmds/' + command + (nParams === -1?'':'?');
+  let initialURI = 'http://192.168.4.250/devices/' + action + '/cmds/' + command + (nParams === -1?'':'?');
 
   _.each(params, (param, n) => {
     initialURI += param + (nParams !== n?'&':'');
@@ -112,7 +113,7 @@ module.exports = function(robot){
 
 
   robot.respond(/exec\s(.*)$/i, (msg) => {
-    let raw_command = msg.match[1].split(' '),
+    let raw_command = parseCommand(msg.match[1]),
         action = raw_command[0],
         command = raw_command[1],
         params = [];
@@ -137,7 +138,6 @@ module.exports = function(robot){
 
 
   robot.respond(/I\swant\sto\s(.*)$/i, (msg) => {
-    console.log(msg.match[1]);
     request.get({uri:'http://192.168.4.110/api/parse/' + msg.match[1], json : false}, (err, r, tarlaURI) => {
 
       msg.send(tarlaURI);
@@ -148,7 +148,7 @@ module.exports = function(robot){
   });
 
   robot.respond(/.*\s?memes?\s?.*$/i, (msg) => {
-    let randomint = 140001 + Math.floor(Math.random() * 60000);
+    let randomint = 140001 + Math.floor(Math.random() * 10000);
     let reponses = ["Yessir", "Oui", "Memevamemeviene", "Dank Meme hot for u", "Spiced memes served"];
     msg.send(reponses[randomint%reponses.length]);
     msg.send("http://images.memes.com/meme/" + randomint.toString() + "?.gif?.jpg");
